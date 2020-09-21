@@ -4,18 +4,11 @@ require("framework"){
 
 		"metatables",
 		"util",
-		"helpers",	
+		"helpers",
 		"setup",
 		"visuals",
 		"drag",
-		"cleanup",
 
 	},
 
-	inputs = {  -- custom inputs
-
-		"inventory-cleanup", -- SHIFT + C
-
-	}
-	
 }

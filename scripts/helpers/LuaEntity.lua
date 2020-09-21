@@ -7,7 +7,7 @@ local _ = scripts.helpers.on
 
 function entity:entityrequests() -- fetch all requests as table
 	local requests = {}
-	
+
     if self.request_slot_count > 0 then
 		for i = 1, self.request_slot_count do
 			local request = self.get_request_slot(i)
@@ -19,7 +19,7 @@ function entity:entityrequests() -- fetch all requests as table
 			end
 		end
 	end
-	
+
 	return requests
 end
 
@@ -29,19 +29,13 @@ function entity:entityrequest(item) -- fetch specific item request
 	if self.request_slot_count > 0 then
 		for i = 1, self.request_slot_count do
 			local request = self.get_request_slot(i)
-			if request and request.name == item and request.count > count then 
+			if request and request.name == item and request.count > count then
 				count = math.max(count, request.count)
 			end
 		end
 	end
 
 	return count
-end
-
-function entity:isIgnored(player)
-	return config.ignoredEntities[self.type] or 
-		   config.ignoredEntities[self.name] or 
-		   global.settings[player.index].ignoredEntities[self.name]
 end
 
 -- for turrets
