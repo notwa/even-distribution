@@ -23,9 +23,8 @@ function this.distributeItems(player_index, cache)
 	local player = _(game.players[player_index])
 
 	if player:is("valid player") then
-		local takeFromCar = false -- TODO
 		local item        = cache.item
-		local totalItems  = player:itemcount(item, takeFromCar)
+		local totalItems  = player:itemcount(item)
 
 		if cache.half then totalItems = math.ceil(totalItems / 2) end
 
@@ -35,7 +34,7 @@ function this.distributeItems(player_index, cache)
 			local color
 
 			if amount > 0 then
-				local takenFromPlayer = player:removeItems(item, amount, takeFromCar, false)
+				local takenFromPlayer = player:removeItems(item, amount, false)
 
 				if takenFromPlayer < amount then color = config.colors.insufficientItems end
 
@@ -44,7 +43,7 @@ function this.distributeItems(player_index, cache)
 					local failedToInsert = takenFromPlayer - itemsInserted
 
 					if failedToInsert > 0 then
-						player:returnItems(item, failedToInsert, takeFromCar, false)
+						player:returnItems(item, failedToInsert, false)
 						color = config.colors.targetFull
 					end
 				end
@@ -106,7 +105,7 @@ function this.on_player_fast_transferred(event)
 					player.play_sound{ path = "utility/inventory_move" }
 
 				elseif cache.itemCount > 0 then
-					-- determine if half a stack has been transferred (buggy if player only has 1 of the item in inventory but more in car!)
+					-- determine if half a stack has been transferred
 					cache.half = (cache.itemCount == math.floor(cache.cursorStackCount / 2))
 				end
 
@@ -136,8 +135,7 @@ function this.stackTransferred(entity, player, cache) -- handle vanilla stack tr
 	end
 
 	---- visuals ----
-	local takeFromCar = false -- TODO
-	local totalItems  = player:itemcount(item, takeFromCar) + cache.itemCount
+	local totalItems  = player:itemcount(item) + cache.itemCount
 	if cache.half then totalItems = math.ceil(totalItems / 2) end
 
 	util.distribute(cache.entities, totalItems, function(entity, amount)

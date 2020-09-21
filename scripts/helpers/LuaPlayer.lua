@@ -45,18 +45,13 @@ function player:trashItems()
 	return trash
 end
 
-function player:playeritemcount(item, includeCar)
+function player:playeritemcount(item)
 	local mainInv      = self:inventory(); if _(mainInv):isnot("valid") then return 0 end
 	local cursor_stack = self.cursor_stack
 	local count        = mainInv.get_item_count(item)
 
 	if cursor_stack.valid_for_read and cursor_stack.name == item then
 		count = count + cursor_stack.count
-	end
-
-	if includeCar and self.driving and self:has("valid", "vehicle") then
-		local vehicleInv = _(self.vehicle):inventory("car_trunk")
-		if _(vehicleInv):is("valid") then count = count + vehicleInv.get_item_count(item) end
 	end
 
 	return count
@@ -74,7 +69,7 @@ function player:playercontents()
 	return contents
 end
 
-function player:removeItems(item, amount, takeFromCar, takeFromTrash)
+function player:removeItems(item, amount, takeFromTrash)
 	local removed = 0
 	if takeFromTrash then
 		local trash = self:inventory("character_trash")
@@ -98,21 +93,11 @@ function player:removeItems(item, amount, takeFromCar, takeFromTrash)
 		if amount <= removed then return removed end
 	end
 
-	if takeFromCar and self.driving and self:has("valid", "vehicle") then
-		local vehicleInv = _(self.vehicle):inventory("car_trunk")
-		if _(vehicleInv):is("valid") then removed = removed + vehicleInv.remove{ name = item, count = amount - removed } end
-	end
-
 	return removed
 end
 
-function player:returnItems(item, amount, takenFromCar, takenFromTrash)
+function player:returnItems(item, amount, takenFromTrash)
 	local remaining = amount - self.insert{ name = item, count = amount }
-
-	if remaining > 0 and takenFromCar and self.driving and self:has("valid", "vehicle") then
-        local vehicleInv = _(self.vehicle):inventory("car_trunk")
-        if _(vehicleInv):is("valid") then remaining = remaining - vehicleInv.insert{ name = item, count = remaining } end
-	end
 
 	if remaining > 0 and takenFromTrash then
         local trash = self:inventory("character_trash")
