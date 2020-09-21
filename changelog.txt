@@ -1,3 +1,14 @@
+This is the changelog for only-even-distribution:
+---------------------------------------------------------------------------------------------------
+Version: 0.0.1
+Date: 2020-09-21
+  Changes:
+    - Removed feature: inventory cleanup
+    - Removed feature: early autotrash
+    - Removed feature: take items from car
+    - New thumbnail
+
+The changelog for the original even-distribution mod is as follows:
 ---------------------------------------------------------------------------------------------------
 Version: 0.3.18
 Date: 2020-05-02
