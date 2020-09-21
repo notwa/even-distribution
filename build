@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -e
+
+name="$(grep -F "\"name\":" info.json | cut -d: -f2 | tr -d -c A-Za-z0-9_-)"
+version="$(grep -F "\"version\":" info.json | tr -d -c 0-9.)"
+archive="${name}_$version"
+
+if [ -d .build ]; then
+    rm -r .build
+fi
+mkdir .build
+git archive only | tar -x -C .build
+
+pushd .build >/dev/null
+cat exclude.txt | tr -d '\r' | tr '\\' / | while read -r exc; do
+    if [ "${exc:0:1}" = "/" ]; then
+        stripped="${exc//\//}"
+        find -name "$stripped" -type d -exec rm -r {} +
+    else
+        find -name "$exc" -type f -delete
+    fi
+done
+popd >/dev/null
+
+mv .build "$archive"
+if [ -e "$archive.zip" ]; then
+    mv "$archive.zip" "$archive.zip.bak"
+fi
+zip -q -9 -X -r "$archive.zip" "$archive"
+rm -r "$archive"
