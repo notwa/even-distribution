@@ -12,3 +12,4 @@ isdebug.lua
 \.vscode\
 *.bak
 *.lnk
+build
