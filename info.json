@@ -4,7 +4,7 @@
   "factorio_version": "0.18",
   "title": "Only Even Distribution",
   "author": "321freddy, notwa",
-  "homepage": "",
+  "homepage": "https://github.com/notwa/even-distribution",
   "description": "Modifies CTRL + Click Drag to evenly distribute the items over multiple buildings, and nothing else.\r\n\r\nOriginally created by 321freddy.",
   "dependencies": ["base >= 0.18.22", "! even-distribution"]
 }
