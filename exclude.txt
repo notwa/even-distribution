@@ -10,3 +10,5 @@ _zipIt.vbs
 isdebug.lua
 .pdn
 \.vscode\
+*.bak
+*.lnk
